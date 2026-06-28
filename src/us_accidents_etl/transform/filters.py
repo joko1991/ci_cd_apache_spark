@@ -1,7 +1,7 @@
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
-from src.us_accidents_etl.config.settings import ETLConfig
+from us_accidents_etl.config.settings import ETLConfig
 
 
 def filter_high_severity(df: DataFrame, cfg: ETLConfig) -> DataFrame:
@@ -13,6 +13,4 @@ def filter_weather_conditions(df: DataFrame, cfg: ETLConfig) -> DataFrame:
 
 
 def apply_etl_filters(df: DataFrame, cfg: ETLConfig) -> DataFrame:
-    df = filter_high_severity(df, cfg)
-    df = filter_weather_conditions(df, cfg)
-    return df
+    return filter_weather_conditions(filter_high_severity(df, cfg), cfg)
